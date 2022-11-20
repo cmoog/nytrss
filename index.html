@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <style>
+      main {
+        font-family: monospace;
+        font-size: 14px;
+      }
+
+      .table {
+        width: 100%;
+        border-spacing: 0;
+        border-collapse: collapse;
+        text-align: left;
+        border: 0.08333rem solid #bfbfbf;
+      }
+
+      .table.table-striped tbody tr:nth-of-type(odd) {
+        background: #eee;
+      }
+
+      .table tbody tr.active,
+      .table.table-striped tbody tr.active {
+        background: #e6e6e6;
+      }
+
+      .table.table-hover tbody tr:hover {
+        background: #e6e6e6;
+      }
+
+      .table.table-scroll {
+        display: block;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        white-space: nowrap;
+      }
+      .table td {
+        overflow: hidden;
+        padding: 0.3rem 0.4rem 0.1rem;
+        text-overflow: ellipsis;
+        border: 0.08333rem solid #bfbfbf;
+      }
+      .table th {
+        font-weight: bold;
+        font-size: 1.25em;
+        padding: 0.3rem 0.4rem 0;
+        border-bottom: 0.08333rem solid black;
+      }
+      .table tbody th {
+        border: 0.08333rem solid #bfbfbf;
+      }
+      .table-gray {
+        font-size: 1em !important;
+        border-top: 2px dotted #ddd;
+        border-left: 4px solid #777;
+        background: #fff;
+        box-shadow: 2px 2px #ddd;
+      }
+    </style>
+    <main>
+      <table class="table table-gray" style="max-width: 500px">
+        <thead>
+          <tr>
+            <th>Feed</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <a href="/nyt/business.rss" target="_blank"
+                >/nyt/business.rss</a
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/nyt/economy.rss" target="_blank">/nyt/economy.rss</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/nyt/us.rss" target="_blank">/nyt/us.rss</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/nyt/politics.rss" target="_blank"
+                >/nyt/politics.rss</a
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/nyt/sunday-review.rss" target="_blank"
+                >/nyt/sunday-review.rss</a
+              >
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <a href="/nyt/home-page.rss" target="_blank"
+                >/nyt/home-page.rss</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <table class="table table-gray" style="max-width: 500px">
+        <thead>
+          <tr>
+            <th colspan="2">Metadata</th>
+          </tr>
+        </thead>
+        <tr>
+          <td>Last refresh</td>
+          <td>{{LastUpdated}}</td>
+        </tr>
+        <tr>
+          <td>Refresh cadence</td>
+          <td>every 20 minutes</td>
+        </tr>
+        <tr>
+          <td>Source code</td>
+          <td>
+            <a href="https://github.com/cmoog/nytrss" target="_blank"
+              >github.com/cmoog/nytrss</a
+            >
+          </td>
+        </tr>
+      </table>
+    </main>
+  </body>
+</html>
