@@ -1,0 +1,12 @@
+name = "nytrss"
+main = "main.ts"
+compatibility_date = "2022-11-16"
+node_compat = true
+
+[[r2_buckets]]
+binding = "BUCKET"
+bucket_name = "rss"
+preview_bucket_name = "rss-dev"
+
+[triggers]
+crons = ["*/20 * * * *"]

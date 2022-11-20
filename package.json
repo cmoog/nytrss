@@ -1,0 +1,22 @@
+{
+  "name": "nytrss",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "wrangler dev --local",
+    "deploy": "wrangler publish",
+    "build": "wrangler build",
+    "fmt": "prettier -w ."
+  },
+  "dependencies": {
+    "@cloudflare/workers-types": "^3.18.0",
+    "cheerio": "^1.0.0-rc.12",
+    "feed": "^4.2.2",
+    "htmlparser2": "^8.0.1",
+    "itty-router": "^2.6.6",
+    "wrangler": "^2.4.0"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
+  }
+}
