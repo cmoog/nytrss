@@ -8,9 +8,9 @@ without leaving your RSS reader, ad-free, no paywall. Feeds update every 20min.
 
 ## Feeds
 
-- [Politics](https://nytrss.cmoog.workers.dev/nyt/politics)
-- [Business](https://nytrss.cmoog.workers.dev/nyt/business)
-- [Economy](https://nytrss.cmoog.workers.dev/nyt/economy)
-- [Technology](https://nytrss.cmoog.workers.dev/nyt/technology)
-- [US](https://nytrss.cmoog.workers.dev/nyt/us)
-- [Opinion/Ezra Klein](https://nytrss.cmoog.workers.dev/nyt/opinion/ezra-klein)
+- [Politics](https://rss.cmoog.io/nyt/politics)
+- [Business](https://rss.cmoog.io/nyt/business)
+- [Economy](https://rss.cmoog.io/nyt/economy)
+- [Technology](https://rss.cmoog.io/nyt/technology)
+- [US](https://rss.cmoog.io/nyt/us)
+- [Opinion/Ezra Klein](https://rss.cmoog.io/nyt/opinion/ezra-klein)
