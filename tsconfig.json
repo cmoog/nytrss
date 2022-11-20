@@ -5,7 +5,9 @@
     "target": "esnext",
     "moduleResolution": "node",
     "strict": true,
-    "types": ["@cloudflare/workers-types"]
+    "types": ["@cloudflare/workers-types"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact"
   },
   "exclude": ["node_modules"]
 }
