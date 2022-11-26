@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "wrangler dev --local",
+    "dev": "wrangler dev --local --test-scheduled --persist",
     "deploy": "wrangler publish",
     "build": "wrangler build",
     "fmt": "prettier -w ."
@@ -13,11 +13,10 @@
     "cheerio": "^1.0.0-rc.12",
     "feed": "^4.2.2",
     "htmlparser2": "^8.0.1",
-    "itty-router": "^2.6.6",
     "preact": "^10.11.3",
     "preact-render-to-string": "^5.2.6",
     "twind": "^0.16.18",
-    "wrangler": "^2.4.0"
+    "wrangler": "^2.4.4"
   },
   "devDependencies": {
     "prettier": "^2.7.1"

@@ -1,7 +1,6 @@
 import { Feed } from "feed";
 import { parseFeed } from "htmlparser2";
 import { load } from "cheerio";
-import { Router } from "itty-router";
 import { renderStatusPage } from "./status";
 
 export default {
@@ -124,48 +123,53 @@ async function scheduled(_event: Event, env: Env, _ctx: ExecutionContext) {
       const { source, extractor } = feeds[route];
       try {
         const res = await populateFeed(source, extractor);
-        await env.BUCKET.put(route, res);
-        console.log("populated feed for", route);
+        await env.BUCKET.put(route, res, {
+          httpMetadata: { contentType: "application/xml" },
+        });
         errors.set(route, null);
-      } catch (e) {
+      } catch (e: unknown) {
         console.error(e);
-        errors.set(route, e);
+        if (e instanceof Error) {
+          errors.set(route, e.message)
+        } else {
+          errors.set(route, `${e}`);
+        }
       }
     })()
   );
-  await Promise.all(promises);
+
+  try {
+    await Promise.allSettled(promises);
+  } catch {}
+
   const statusPage = renderStatusPage(errors);
-  await env.BUCKET.put("index.html", statusPage);
+  await env.BUCKET.put("index.html", statusPage, {
+    httpMetadata: {
+      contentType: "text/html",
+    },
+  });
 }
 
 async function handler(req: Request, env: Env): Promise<Response> {
-  const router = Router();
-  for (const route of Object.keys(feeds)) {
-    router.get(
-      `/${route}`,
-      async (_req: Request, env: Env): Promise<Response> => {
-        const obj = await env.BUCKET.get(route);
-        if (!obj) {
-          return new Response(null, { status: 404 });
-        }
-        return new Response(obj.body, {
-          headers: {
-            "content-type": "application/xml",
-            "access-control-allow-origin": "*",
-            "access-control-allow-methods": "GET, OPTIONS",
-          },
-        });
-      }
-    );
+  const url = new URL(req.url);
+  if (url.pathname === "/") {
+    url.pathname = "/index.html";
+    return Response.redirect(url.toString());
   }
-  router.get("/", async (_req, env: Env) => {
-    const obj = await env.BUCKET.get("index.html");
-    return new Response(obj!.body, {
-      headers: { "content-type": "text/html" },
-    });
+  const filepath = url.pathname.startsWith("/")
+    ? url.pathname.slice(1, url.pathname.length)
+    : url.pathname;
+  const obj = await env.BUCKET.get(filepath);
+  if (!obj) {
+    return new Response(null, { status: 404 });
+  }
+  return new Response(obj.body, {
+    headers: {
+      "content-type": obj.httpMetadata?.contentType ?? "text/plain",
+      "access-control-allow-origin": "*",
+      "access-control-allow-methods": "GET, OPTIONS",
+    },
   });
-  router.all("*", () => new Response(null, { status: 404 }));
-  return router.handle(req, env);
 }
 
 async function fetchFeed(url: string) {
