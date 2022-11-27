@@ -77,7 +77,7 @@ const feeds: Feeds = {
 async function populateFeed(
   source: string,
   extractor: Extractor
-): Promise<string> {
+): Promise<Feed> {
   const doc = await fetchFeed(source);
   const feed = new Feed({
     title: doc.title || "",
@@ -113,7 +113,7 @@ async function populateFeed(
     })()
   );
   await Promise.all(promises);
-  return feed.atom1();
+  return feed;
 }
 
 async function scheduled(_event: Event, env: Env, _ctx: ExecutionContext) {
@@ -122,15 +122,21 @@ async function scheduled(_event: Event, env: Env, _ctx: ExecutionContext) {
     (async () => {
       const { source, extractor } = feeds[route];
       try {
-        const res = await populateFeed(source, extractor);
-        await env.BUCKET.put(route, res, {
+        const feed = await populateFeed(source, extractor);
+        await env.BUCKET.put(route, feed.atom1(), {
+          httpMetadata: { contentType: "application/xml" },
+        });
+        await env.BUCKET.put(`${route}.atom`, feed.atom1(), {
+          httpMetadata: { contentType: "application/xml" },
+        });
+        await env.BUCKET.put(`${route}.rss`, feed.rss2(), {
           httpMetadata: { contentType: "application/xml" },
         });
         errors.set(route, null);
       } catch (e: unknown) {
         console.error(e);
         if (e instanceof Error) {
-          errors.set(route, e.message)
+          errors.set(route, e.message);
         } else {
           errors.set(route, `${e}`);
         }

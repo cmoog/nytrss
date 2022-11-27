@@ -55,10 +55,10 @@ const Table: FunctionComponent<{ status: Map<string, unknown> }> = ({
           <td className={tw`p-2 border hover:underline`}>
             <a
               className={tw`text-blue-600 visited:text-purple-600`}
-              href={`/${key}`}
+              href={`/${key}.atom`}
               target="_blank"
             >
-              /{key}
+              /{key}.atom
             </a>
           </td>
           <td className={tw`p-2 border`}>{status.get(key) || "success"}</td>
