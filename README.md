@@ -10,7 +10,7 @@ without leaving your RSS reader, ad-free, no paywall. Feeds update every 20min.
 
 - [Politics](https://rss.cmoog.io/nyt/politics.atom)
 - [Business](https://rss.cmoog.io/nyt/business.atom)
-- [Economy](https://rss.cmoog.io/nyt/economy)
+- [Economy](https://rss.cmoog.io/nyt/economy.atom)
 - [Technology](https://rss.cmoog.io/nyt/technology.atom)
 - [US](https://rss.cmoog.io/nyt/us.atom)
 - [Opinion/Ezra Klein](https://rss.cmoog.io/nyt/opinion/ezra-klein.atom)
