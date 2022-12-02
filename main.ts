@@ -74,10 +74,16 @@ const feeds: Feeds = {
   // },
 };
 
+type FeedWithErrs = {
+  feed: Feed;
+  n_successes: number;
+  n_total: number;
+};
+
 async function populateFeed(
   source: string,
   extractor: Extractor
-): Promise<Feed> {
+): Promise<FeedWithErrs> {
   const doc = await fetchFeed(source);
   const feed = new Feed({
     title: doc.title || "",
@@ -112,17 +118,26 @@ async function populateFeed(
       }
     })()
   );
-  await Promise.all(promises);
-  return feed;
+  const successes = (await Promise.allSettled(promises)).filter(
+    (a) => a.status === "fulfilled"
+  ).length;
+  return {
+    feed,
+    n_successes: successes,
+    n_total: doc.items.length,
+  };
 }
 
 async function scheduled(_event: Event, env: Env, _ctx: ExecutionContext) {
-  const errors = new Map<string, unknown>();
+  const errors = new Map<string, string>();
   const promises = Object.keys(feeds).map((route) =>
     (async () => {
       const { source, extractor } = feeds[route];
       try {
-        const feed = await populateFeed(source, extractor);
+        const { feed, n_successes, n_total } = await populateFeed(
+          source,
+          extractor
+        );
         await env.BUCKET.put(route, feed.atom1(), {
           httpMetadata: { contentType: "application/xml" },
         });
@@ -132,14 +147,10 @@ async function scheduled(_event: Event, env: Env, _ctx: ExecutionContext) {
         await env.BUCKET.put(`${route}.rss`, feed.rss2(), {
           httpMetadata: { contentType: "application/xml" },
         });
-        errors.set(route, null);
+        errors.set(route, `${n_successes}/${n_total}`);
       } catch (e: unknown) {
         console.error(e);
-        if (e instanceof Error) {
-          errors.set(route, e.message);
-        } else {
-          errors.set(route, `${e}`);
-        }
+        errors.set(route, `fatal: fetch source feed`);
       }
     })()
   );

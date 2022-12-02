@@ -6,7 +6,7 @@ import { virtualSheet, getStyleTag } from "twind/sheets";
 const sheet = virtualSheet();
 setup({ sheet });
 
-export function renderStatusPage(errors: Map<string, any>): string {
+export function renderStatusPage(errors: Map<string, string>): string {
   sheet.reset();
   const body = render(<Page status={errors} />);
   const styleTag = getStyleTag(sheet);
@@ -23,7 +23,7 @@ ${styleTag}
 `;
 }
 
-const Page: FunctionComponent<{ status: Map<string, unknown> }> = ({
+const Page: FunctionComponent<{ status: Map<string, string> }> = ({
   status,
 }) => (
   <Layout>
@@ -37,7 +37,7 @@ const Layout: FunctionComponent = ({ children }) => (
   </main>
 );
 
-const Table: FunctionComponent<{ status: Map<string, unknown> }> = ({
+const Table: FunctionComponent<{ status: Map<string, string> }> = ({
   status,
 }) => (
   <table
@@ -61,7 +61,7 @@ const Table: FunctionComponent<{ status: Map<string, unknown> }> = ({
               /{key}.atom
             </a>
           </td>
-          <td className={tw`p-2 border`}>{status.get(key) || "success"}</td>
+          <td className={tw`p-2 border`}>{status.get(key)}</td>
         </tr>
       ))}
     </tbody>
