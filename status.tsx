@@ -50,20 +50,22 @@ const Table: FunctionComponent<{ status: Map<string, string> }> = ({
       </tr>
     </thead>
     <tbody>
-      {Array.from(status.keys()).map((key) => (
-        <tr key={key} className={tw`border`}>
-          <td className={tw`p-2 border hover:underline`}>
-            <a
-              className={tw`text-blue-600 visited:text-purple-600`}
-              href={`/${key}.atom`}
-              target="_blank"
-            >
-              /{key}.atom
-            </a>
-          </td>
-          <td className={tw`p-2 border`}>{status.get(key)}</td>
-        </tr>
-      ))}
+      {Array.from(status.keys())
+        .sort()
+        .map((key) => (
+          <tr key={key} className={tw`border`}>
+            <td className={tw`p-2 border hover:underline`}>
+              <a
+                className={tw`text-blue-600 visited:text-purple-600`}
+                href={`/${key}.atom`}
+                target="_blank"
+              >
+                /{key}.atom
+              </a>
+            </td>
+            <td className={tw`p-2 border`}>{status.get(key)}</td>
+          </tr>
+        ))}
     </tbody>
   </table>
 );
