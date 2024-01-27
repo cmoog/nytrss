@@ -1,10 +1,11 @@
 { stdenv, haskellPackages }:
 let
   ghc = haskellPackages.ghcWithPackages (p: with p; [
-    sqlite-simple
     HandsomeSoup
     feed
+    file-embed
     http-conduit
+    sqlite-simple
     xml-conduit
   ]);
 in

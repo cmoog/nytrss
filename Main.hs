@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE TemplateHaskell #-}
 {-# OPTIONS_GHC -Wall #-}
 
 module Main where
@@ -8,6 +9,7 @@ import Control.Monad (join, when)
 import Control.Monad.Catch (handleAll)
 import Data.ByteString.Lazy.UTF8 qualified as LBS
 import Data.ByteString.UTF8 qualified as BS
+import Data.FileEmbed (embedStringFile)
 import Data.Maybe (listToMaybe, mapMaybe)
 import Data.Text (Text)
 import Data.Text qualified as T
@@ -186,7 +188,7 @@ maybeNodeElement _ = Nothing
 -- generate index.html with injected timestamp
 generateIndex :: IO Text
 generateIndex = do
-  template <- T.readFile "./index.html"
+  let template = $(embedStringFile "./index.html")
   time <- showTime
   return $ T.replace "{{LastUpdated}}" (T.pack time) template
 
